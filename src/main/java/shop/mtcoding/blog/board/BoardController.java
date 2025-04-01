@@ -1,12 +1,9 @@
 package shop.mtcoding.blog.board;
 
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @RequiredArgsConstructor
 @Controller
@@ -25,10 +22,7 @@ public class BoardController {
     }
 
     @GetMapping("/board/{id}/updateForm")
-    public String updateForm(@PathVariable int id, HttpServletRequest request) {
-
-        Board board = boardRepository.selectOne(id);
-        request.setAttribute("board", board);
+    public String updateForm(@PathVariable int id) {
         return "board/updateForm";
     }
 }
