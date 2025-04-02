@@ -5,14 +5,15 @@
         <div class="card-header"><b>익명 글수정 화면입니다</b></div>
         <div class="card-body">
             <form action="#">
+                <input type="hidden" id="boardID" value="{{boardId}}">
                 <div class="mb-3">
-                    <input type="text" class="form-control" placeholder="Enter author" name="author">
+                    <input type="text" class="form-control" placeholder="Enter author" id="author">
                 </div>
                 <div class="mb-3">
-                    <input type="text" class="form-control" placeholder="Enter title" name="title">
+                    <input type="text" class="form-control" placeholder="Enter title" id="title">
                 </div>
                 <div class="mb-3">
-                    <textarea class="form-control" rows="5" name="content"></textarea>
+                    <textarea class="form-control" rows="5" id="content"></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary form-control">글수정완료</button>
             </form>
@@ -20,4 +21,32 @@
     </div>
 </div>
 
+<script>
+
+let boardId = document.querySelector("#boardID").value;
+// let boardId2 = getCookie("boardId")
+//
+// function getCookie(key) {
+//     const cookies = document.cookie.split('; ');
+//     for (let cookie of cookies) {
+//         const [k, v] = cookie.split('=');
+//         if (k === key) {
+//             return v;
+//         }
+//     }
+//     return null; // 해당 키가 없으면 null 반환
+// }
+// console.log(boardId2);
+
+    //책임: 통신
+    async function init(){
+        let response = await fetch("/api/boards/"+boardId);
+        let responseBody = await response.json();
+        console.log(responseBody);
+        document.querySelector("#author").value=responseBody.body.author;
+        document.querySelector("#title").value=responseBody.body.title;
+        document.querySelector("#content").value=responseBody.body.content;
+    }
+    init()
+</script>
 {{> layout/footer}}
