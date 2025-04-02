@@ -1,11 +1,11 @@
 package shop.mtcoding.blog.board;
 
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin
 @RequiredArgsConstructor
 @RestController
 public class BoardApiController {
@@ -25,25 +25,20 @@ public class BoardApiController {
     }
 
     @DeleteMapping("/api/boards/{id}")
-    public ApiUtil<?> deleteById(@PathVariable Integer id, HttpServletResponse response) {
+    public ApiUtil<?> deleteById(@PathVariable Integer id) {
         Board board = boardRepository.selectOne(id);
-        if (board == null) {
-            response.setStatus(404);
-            return new ApiUtil<>(404, "해당 게시글을 찾을 수 없습니다");
-        }
-
         boardRepository.deleteById(id);
         return new ApiUtil<>(null);
     }
 
     @GetMapping("/api/boards/{id}")
-    public ApiUtil<?> findById(@PathVariable int id) {
+    public ApiUtil<?> findById(@PathVariable("id") int id) {
         Board board = boardRepository.selectOne(id);
         return new ApiUtil<>(board); // MessageConverter
     }
 
     @GetMapping("/api/boards")
-    public ApiUtil<?> findAll(HttpServletResponse response) {
+    public ApiUtil<?> findAll() {
         List<Board> boardList = boardRepository.selectAll();
         return new ApiUtil<>(boardList); // MessageConverter
     }
