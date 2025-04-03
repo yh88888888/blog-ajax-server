@@ -4,18 +4,51 @@
     <div class="card">
         <div class="card-header"><b>익명 글쓰기 화면입니다</b></div>
         <div class="card-body">
-            <form action="#">
+            <form >
+<!--        <form action="#" method="post" enctype="application/x-www-form-urlencoded">-->
                 <div class="mb-3">
-                    <input type="text" class="form-control" placeholder="Enter author" name="author">
+                    <input type="text" class="form-control" placeholder="Enter author" id="author">
+<!--                <input type="text" class="form-control" placeholder="Enter author" name="author">-->
                 </div>
                 <div class="mb-3">
-                    <input type="text" class="form-control" placeholder="Enter title" name="title">
+                    <input type="text" class="form-control" placeholder="Enter title" id="title">
+<!--                <input type="text" class="form-control" placeholder="Enter title" name="title">-->
                 </div>
                 <div class="mb-3">
-                    <textarea class="form-control" rows="5" name="content"></textarea>
+                    <textarea class="form-control" rows="5" id="content"></textarea>
+<!--                <textarea class="form-control" rows="5" name="content"></textarea>-->
                 </div>
-                <button type="submit" class="btn btn-primary form-control">글쓰기완료</button>
+                <button type="button" class="btn btn-primary form-control" onclick="write1()">글쓰기완료</button>
+<!--            <button type="submit" class="btn btn-primary form-control" onclick="write1()">글쓰기완료</button>-->
             </form>
+            <script>
+    async function write1(){
+        let request = {
+            "author":document.querySelector("#author").value,
+            "title":document.querySelector("#title").value,
+            "content":document.querySelector("#content").value
+        }
+
+         // new Thread(()->{}).start
+        let requestBody = await fetch("/api/boards",{
+            method:"post",
+            body:JSON.stringify(request),
+            headers:{"content-type":"application/json"}
+        });
+
+
+        let responseBody = requestBody.json();
+        console.log(responseBody);
+
+        // console.log(responseBody);
+        // if(response.status==400);
+        // alert(responseBody.msg);
+        // location.reload();
+
+        location.href = "/";
+    }
+            </script>
+
         </div>
     </div>
 </div>

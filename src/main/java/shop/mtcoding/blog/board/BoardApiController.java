@@ -20,13 +20,14 @@ public class BoardApiController {
 
     @PostMapping("/api/boards")
     public ApiUtil<?> write(@RequestBody BoardRequest.WriteDTO requestDTO) {
+
         boardRepository.insert(requestDTO);
         return new ApiUtil<>(null);
     }
 
     @DeleteMapping("/api/boards/{id}")
-    public ApiUtil<?> deleteById(@PathVariable Integer id) {
-        Board board = boardRepository.selectOne(id);
+    public ApiUtil<?> deleteById(@PathVariable("id") Integer id) {
+//        Board board = boardRepository.selectOne(id);
         boardRepository.deleteById(id);
         return new ApiUtil<>(null);
     }

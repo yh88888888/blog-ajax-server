@@ -1,7 +1,6 @@
 {{> layout/header}}
 
 <div class="container p-5">
-
     <table class="table table-striped">
         <thead>
         <tr>
@@ -18,9 +17,20 @@
 
 </div>
 <script>
+    async function deleteBoard(bId){
+        let response = await fetch("/api/boards/"+bId,{
+            method:"delete"
+        });
+        let responseBody=await response.json();
+        document.querySelector(`#item-${bId}`).remove();
+        //document.querySelector(`#item-${board.id}`).style.display=none;
+        // console.log(responseBody);
+        // location.reload();
+    }
     // 책임: 컴퍼넌트 생성
     function makeBoard(board){
-        let tr = document.createElement("tr")
+        let tr = document.createElement("tr");
+        tr.setAttribute("id",`item-${board.id}`);
         tr.innerHTML =`
             <td>${board.id}</td>
             <td>${board.title}</td>
@@ -28,11 +38,11 @@
             <td>${board.author}</td>
             <td>
                 <div class="d-flex">
-                    <form action="#">
-                        <button class="btn btn-danger" onclick = "deleteBoard(${board.id})">삭제</button>
+                    <form>
+                        <button type="button" class="btn btn-danger" onclick = "deleteBoard(${board.id})">삭제</button>
                     </form>
                     <form action="/board/${board.id}/updateForm" method="get">
-                        <button class="btn btn-warning">수정</button>
+                        <button type="button" class="btn btn-warning">수정</button>
                     </form>
                 </div>
             </td>`;
@@ -44,7 +54,12 @@
         let response = await fetch("/api/boards");
         let responseBody = await response.json();
         let boardList = responseBody.body;
-        // console.log(boardList);
+        // let boardList1 = responseBody.body.id;
+        // let boardList2 = responseBody.body.title;
+      console.log(boardList);
+      // console.log(boardList1);
+      // console.log(boardList2);
+      console.log(1111)
         let tbody = document.querySelector("#board-box");
         boardList.forEach((board) => {
             tbody.append(makeBoard(board));
